@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0b1423">
+  <meta name="description" content="Interactive AQA GCSE Computer Science practice: Python IDE, Python Tasks, SQL, Data Representation and Computer Systems.">
+  <title>Mr Lee's GCSE Computing Hub</title>
+  <style>
+    :root { --bg:#0b1423; --panel:#15243a; --panel2:#1a2d46; --line:#344b67; --text:#f0f6ff; --muted:#aec1d6; --mint:#68e4ca; --blue:#83b5ff; --purple:#d6adff; --amber:#ffc27f; --r:20px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif; color:var(--text); background: radial-gradient(ellipse 75% 36% at 52% -10%, #234b63 0%, transparent 85%), var(--bg); min-height:100vh; }
+    a { color:inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline:3px solid #fdf0b9; outline-offset:4px; }
+    .wrap { width:min(1160px,calc(100% - 40px)); margin:0 auto; }
+    .topbar { border-bottom:1px solid #29425b; background:#0e1a2cbb; }
+    .topbar .wrap { display:flex; justify-content:space-between; align-items:center; gap:18px; padding:17px 0; }
+    .brand { display:inline-flex; align-items:center; gap:12px; text-decoration:none; font-weight:800; letter-spacing:-.02em; }
+    .brandmark { width:40px; height:40px; border:1px solid #5cb6b3; color:var(--mint); display:grid; place-items:center; border-radius:13px; background:#163b46; }
+    .brand small { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.14em; font-weight:700; color:var(--muted); margin-bottom:3px; }
+    .nav { display:flex; align-items:center; gap:25px; font-size:14px; color:var(--muted); }
+    .nav a { text-decoration:none; } .nav a:hover { color:white; }
+    .hero { text-align:center; padding:76px 0 42px; }
+    .eyebrow { color:#8fe9d9; letter-spacing:.16em; text-transform:uppercase; font-size:12px; font-weight:800; }
+    .hero h1 { font-size:clamp(34px,5.2vw,62px); line-height:1.07; max-width:850px; margin:17px auto 18px; letter-spacing:-.045em; }
+    .highlight { color:var(--mint); }
+    .hero p { color:var(--muted); max-width:670px; margin:0 auto; line-height:1.65; font-size:17px; }
+    .quickbar { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:29px; }
+    .pill { border:1px solid #38546b; border-radius:999px; background:#17293e; color:#d2e2ee; font-size:13px; font-weight:650; padding:9px 15px; }
+    .pill::before { content:'●'; color:var(--mint); margin-right:9px; font-size:10px; }
+    .mainhead { display:flex; justify-content:space-between; gap:22px; align-items:end; margin:30px 0 19px; }
+    .mainhead h2, .help h2 { font-size:26px; letter-spacing:-.025em; margin:0 0 7px; }
+    .mainhead p, .help p { margin:0; color:var(--muted); line-height:1.55; }
+    .search { display:flex; align-items:center; gap:10px; border:1px solid #45617c; background:#17283e; border-radius:12px; padding:0 12px; flex:0 1 270px; min-width:210px; }
+    .search svg { flex-shrink:0; color:#a9bdcf; }
+    .search input { width:100%; padding:12px 0; border:0; outline:0; background:transparent; color:white; font-size:14px; }
+    .search input::placeholder { color:#a7bacb; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    .resource { --accent:var(--mint); position:relative; display:flex; flex-direction:column; min-height:310px; overflow:hidden; background:linear-gradient(160deg,#1b3049,#132137 85%); border:1px solid #3b516d; border-top:4px solid var(--accent); border-radius:var(--r); padding:27px; transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+    .resource[hidden] { display:none; }
+    .resource:hover { transform:translateY(-3px); border-color:var(--accent); box-shadow:0 15px 36px #0005; }
+    .resource::after { content:''; pointer-events:none; position:absolute; width:190px; height:190px; right:-100px; top:-95px; border:1px solid var(--accent); border-radius:50%; opacity:.18; }
+    .resource[data-subject="python"] { --accent:var(--mint); }
+    .resource[data-subject="sql"] { --accent:var(--blue); }
+    .resource[data-subject="data"] { --accent:var(--purple); }
+    .resource[data-subject="systems"] { --accent:var(--amber); }
+    .cardtop { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .iconbox { width:60px; height:60px; color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,transparent); border:1px solid color-mix(in srgb,var(--accent) 40%,transparent); border-radius:16px; display:grid; place-items:center; }
+    .topic { color:var(--accent); font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+    .resource h3 { font-size:26px; line-height:1.14; letter-spacing:-.03em; margin:20px 0 10px; }
+    .resource p { color:#bccddd; line-height:1.55; margin:0 0 20px; max-width:480px; font-size:15px; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:auto; margin-bottom:24px; }
+    .tag { font-size:12px; border:1px solid #3e5873; color:#c5d7e6; padding:6px 9px; border-radius:8px; background:#23354d; }
+    .cardlink { display:flex; justify-content:center; align-items:center; gap:10px; border-radius:11px; min-height:46px; background:var(--accent); color:#102034; padding:12px 17px; font-weight:800; font-size:14px; text-decoration:none; transition:filter .2s ease; }
+    .cardlink:hover { filter:brightness(1.12); }
+    .cardlink svg { width:18px; height:18px; }
+    .empty { display:none; color:var(--muted); text-align:center; border:1px dashed var(--line); border-radius:15px; padding:24px; margin-top:16px; }
+    .help { margin:44px 0 62px; background:#15253a; border:1px solid #344c67; padding:28px; border-radius:18px; display:grid; grid-template-columns:1fr 1.1fr; gap:30px; align-items:center; }
+    .help h2 { font-size:22px; }
+    .steps { display:grid; gap:10px; }
+    .step { display:flex; gap:12px; align-items:start; color:#c7d6e5; font-size:14px; line-height:1.5; }
+    .number { width:26px; height:26px; flex-shrink:0; display:grid; place-items:center; border:1px solid #5b918e; background:#19413f; color:#a7f0df; border-radius:8px; font-size:12px; font-weight:800; }
+    footer { border-top:1px solid #29425b; color:#97afc5; padding:24px 0 38px; font-size:12px; line-height:1.6; }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    @media(max-width:780px) { .hero {padding:54px 0 29px;} .grid {grid-template-columns:1fr;} .help {grid-template-columns:1fr;} .nav {gap:15px;} }
+    @media(max-width:550px) { .wrap {width:min(100% - 28px,1160px);} .brand {font-size:13px;} .brandmark {width:36px;height:36px;} .brand small {font-size:9px;} .nav a:first-child {display:none;} .hero p {font-size:15px;} .mainhead {align-items:stretch; flex-direction:column;} .search {flex:auto; min-width:0;} .resource {padding:22px;min-height:290px;} .resource h3 {font-size:24px;} .help {padding:22px;} }
+    @media(prefers-reduced-motion:reduce) { html {scroll-behavior:auto;} .resource,.cardlink {transition:none;} }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="GCSE Computing Hub home">
+        <span class="brandmark" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="m8 9 3 3-3 3M13 15h4M8 21h8"/></svg>
+        </span>
+        <span><small>Mr Lee's</small>GCSE Computing Hub</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation"><a href="#activities">Activities</a><a href="#how-it-works">How it works</a></nav>
+    </div>
+  </header>
+  <main id="top" class="wrap">
+    <section class="hero" aria-labelledby="welcome-title">
+      <div class="eyebrow">AQA GCSE Computer Science · Interactive revision</div>
+      <h1 id="welcome-title">Your computer science <span class="highlight">Mission Control.</span></h1>
+      <p>Learn by doing. Choose a topic, try a challenge, test your understanding and improve your skills — at school or at home.</p>
+      <div class="quickbar" aria-label="Features"><span class="pill">Interactive practice</span><span class="pill">Instant feedback</span><span class="pill">Helping Hands</span><span class="pill">No account needed</span></div>
+    </section>
+    <section id="activities" aria-labelledby="activities-heading">
+      <div class="mainhead">
+        <div><h2 id="activities-heading">Choose your mission</h2><p>Five resources. Select one to open its interactive activities.</p></div>
+        <label class="search" aria-label="Filter activities">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <input id="topicSearch" type="search" placeholder="Search topics..." autocomplete="off" aria-label="Search topics">
+        </label>
+      </div>
+      <div class="grid" id="resources">
+        <article class="resource" data-subject="python" data-search="python ide programming editor free coding run test interpreter scripts experiment" >
+          <div class="cardtop"><div class="iconbox" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div><span class="topic">Programming · IDE</span></div>
+          <h3>Python IDE</h3>
+          <p>Your space to write, run and test Python programs freely. Explore your own ideas, experiment and fix errors.</p>
+          <div class="tags"><span class="tag">Free coding</span><span class="tag">Run Python</span><span class="tag">Test ideas</span></div>
+          <a class="cardlink" href="https://mrleelessons.github.io/Python_IDE/" target="_blank" rel="noopener noreferrer" aria-label="Open Python IDE in a new tab">Open Python IDE <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+        <article class="resource" data-subject="python" data-search="python tasks missions programming variables selection loops iteration functions lists debugging exam practice challenges">
+          <div class="cardtop"><div class="iconbox" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><span class="topic">Programming · Practice</span></div>
+          <h3>Python Tasks</h3>
+          <p>Write, complete and debug Python programs. Complete guided missions, check your code and tackle GCSE exam-style challenges.</p>
+          <div class="tags"><span class="tag">Guided tasks</span><span class="tag">Debugging</span><span class="tag">Exam practice</span></div>
+          <a class="cardlink" href="https://mrleelessons.github.io/PythonTasks1/" target="_blank" rel="noopener noreferrer" aria-label="Open Python Tasks in a new tab">Open Python Tasks <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+        <article class="resource" data-subject="sql" data-search="sql databases database select where order by update insert delete queries records tables">
+          <div class="cardtop"><div class="iconbox" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></svg></div><span class="topic">3.7 · Databases</span></div>
+          <h3>SQL Mission Control</h3>
+          <p>Explore database tables, write SQL queries and see how SELECT, UPDATE, INSERT and DELETE affect the data.</p>
+          <div class="tags"><span class="tag">SQL editor</span><span class="tag">Database tables</span><span class="tag">Instant results</span></div>
+          <a class="cardlink" href="https://mrleelessons.github.io/SQL-Mission-Control/" target="_blank" rel="noopener noreferrer" aria-label="Open SQL Mission Control in a new tab">Open SQL Mission Control <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+        <article class="resource" data-subject="data" data-search="3.3 data representation binary denary hexadecimal addition shifts images pixels colour depth sound compression huffman rle">
+          <div class="cardtop"><div class="iconbox" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16M3 10h18M3 15h18"/></svg></div><span class="topic">3.3 · Data representation</span></div>
+          <h3>Data Representation</h3>
+          <p>Practise binary conversions and addition, experiment with bitmap images, explore digital sound and test compression skills.</p>
+          <div class="tags"><span class="tag">Random binary</span><span class="tag">Image sizes</span><span class="tag">Sound &amp; compression</span></div>
+          <a class="cardlink" href="https://mrleelessons.github.io/DataRep/" target="_blank" rel="noopener noreferrer" aria-label="Open Data Representation Mission Control in a new tab">Open Data Representation <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+        <article class="resource" data-subject="systems" data-search="3.4 computer systems boolean logic gates cpu fetch decode execute memory secondary storage software translators compiler interpreter alu">
+          <div class="cardtop"><div class="iconbox" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><span class="topic">3.4 · Computer systems</span></div>
+          <h3>Computer Systems</h3>
+          <p>Experiment with logic gates, step through the CPU instruction cycle, investigate memory and compare software translators.</p>
+          <div class="tags"><span class="tag">Logic lab</span><span class="tag">CPU simulator</span><span class="tag">Memory &amp; storage</span></div>
+          <a class="cardlink" href="https://mrleelessons.github.io/ComputerSystems/" target="_blank" rel="noopener noreferrer" aria-label="Open Computer Systems Mission Control in a new tab">Open Computer Systems <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </article>
+      </div>
+      <p class="empty" id="noResults" role="status">No matching activities. Try searching for “binary”, “Python”, “SQL” or “CPU”.</p>
+    </section>
+    <section class="help" id="how-it-works" aria-labelledby="help-title">
+      <div><h2 id="help-title">How to use the hub</h2><p>Your starting point for interactive Computing practice. You can work through challenges in lessons or revisit them for independent revision.</p></div>
+      <div class="steps"><div class="step"><span class="number">1</span><span>Choose a resource and click its <strong>Open</strong> button.</span></div><div class="step"><span class="number">2</span><span>Try the challenges, use the Helping Hand if needed, and check your answers.</span></div><div class="step"><span class="number">3</span><span>For mission-based activities, use the <strong>Progress Panel</strong> to show the challenges you've completed.</span></div></div>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>Mr Lee's GCSE Computing Hub · Independent AQA-aligned practice resources</span><span>Each resource opens in a new tab. Mission progress, where available, is saved separately in your browser.</span></div></footer>
+  <script>
+    const search = document.getElementById('topicSearch');
+    const cards = [...document.querySelectorAll('.resource')];
+    const noResults = document.getElementById('noResults');
+    search.addEventListener('input', () => {
+      const query = search.value.trim().toLowerCase();
+      let count = 0;
+      cards.forEach(card => {
+        const visible = !query || (card.dataset.search + ' ' + card.innerText).toLowerCase().includes(query);
+        card.hidden = !visible;
+        if (visible) count++;
+      });
+      noResults.style.display = count ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
